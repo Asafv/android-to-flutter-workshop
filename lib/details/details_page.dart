@@ -21,23 +21,19 @@ class DetailsPage extends StatelessWidget {
         /// Stack is pretty match the same as FrameLayout in Android
         child: Stack(
           children: <Widget>[
-            Positioned(
-              /// FutureBuilder is used for a single async call
-              /// like fetch the movie details in our case
-              child: FutureBuilder<Movie>(
-                initialData: null,
-                // getting the bloc from the BlocProvider
-                future: BlocProvider.of<MovieBloc>(context)
-                    .getMovieDetails(movie.id),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    // the updated movie model
-                    return _detailColumn(snapshot.data);
-                  }
+            FutureBuilder<Movie>(
+              initialData: null,
+              // getting the bloc from the BlocProvider
+              future:
+                  BlocProvider.of<MovieBloc>(context).getMovieDetails(movie.id),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  // the updated movie model
+                  return _detailColumn(snapshot.data);
+                }
 
-                  return _detailColumn(movie);
-                },
-              ),
+                return _detailColumn(movie);
+              },
             ),
 
             /// keeping the image in the same hierarchy for Hero animation
